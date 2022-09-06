@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="asynflow-suite.xml" />
+	<munit:test name="asynflowFlow-test" doc:id="6316b58b-bb65-48ba-864e-b3c2a55668ae" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="5e0da91a-bee1-4dcf-866b-7a5aa4b3a15f" >
+				<munit:payload value="#[output text/plain  --- readUrl('classpath://asynflowFlowtest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="text/plain " />
+				<munit:attributes value="#[readUrl('classpath://asynflowFlowtest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to asynflowFlow" doc:id="cc64f903-08be-4abe-9ee7-bcd542752ed9" name="asynflowFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="1f695f4f-4a09-4e06-9177-50a38dd973b7" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import asynflowFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="asynflowFlow-test1" doc:id="40d95a77-0f6a-461e-b391-bd51cc26f670" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="98e74239-f682-46ce-88d7-d5f33bf40738" >
+				<munit:payload value="#[output text/plain  --- readUrl('classpath://asynflowFlowtest1\set-event_payload.dwl')]" encoding="UTF-8" mediaType="text/plain " />
+				<munit:attributes value="#[readUrl('classpath://asynflowFlowtest1\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to asynflowFlow" doc:id="07225023-d5d3-4213-8cdb-dc883fff8578" name="asynflowFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="3b51b66e-b190-4947-a09b-9c027f57c83c" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import asynflowFlowtest1::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
